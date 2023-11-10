@@ -20,7 +20,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="my code" />
+    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="hello sabry">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -109,7 +112,7 @@
       <updated>1699613531897</updated>
       <workItem from="1699613534185" duration="5251000" />
       <workItem from="1699633916918" duration="5190000" />
-      <workItem from="1699649145750" duration="790000" />
+      <workItem from="1699649145750" duration="1492000" />
     </task>
     <task id="LOCAL-00001" summary="cpp mode">
       <option name="closed" value="true" />
@@ -143,7 +146,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699649523437</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="hello sabry">
+      <option name="closed" value="true" />
+      <created>1699650652486</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1699650652486</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +171,7 @@
     <MESSAGE value="Merge remote-tracking branch 'origin/master'&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml" />
     <MESSAGE value="full code with BFS implementation&#10;and comments to explain it ..by BEDO" />
     <MESSAGE value="my code" />
-    <option name="LAST_COMMIT_MESSAGE" value="my code" />
+    <MESSAGE value="hello sabry" />
+    <option name="LAST_COMMIT_MESSAGE" value="hello sabry" />
   </component>
 </project>

@@ -77,7 +77,7 @@ void solvePuzzle(const PuzzleState& initialState) {
         }
 
         nodesExpanded++;
-        // hello sabry .
+        // hello sabry , i am bedo .
         // Generate next states by moving the zero tile
         vector<int> dr = {0, 0, -1, 1};  // Directions: [left, right, up, down]
         vector<int> dc = {-1, 1, 0, 0};  // Directions: [left, right, up, down]
