@@ -20,14 +20,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="cpp mode">
+    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="full code with BFS implementation&#10;and comments to explain it ..by BEDO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_deps" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/8_puzzle_game.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/8_puzzle_game.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/8_puzzle_game.dir/main.cpp.obj" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/8_puzzle_game.dir/main.cpp.obj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/Testing/Temporary/LastTest.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,9 +34,13 @@
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
+  &quot;history&quot;: [
+    {
+      &quot;state&quot;: &quot;OPEN&quot;,
+      &quot;author&quot;: &quot;AbdelrahmanAyman0011&quot;
+    }
+  ],
   &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;AbdelrahmanAyman0011&quot;
   }
 }</component>
   <component name="GithubPullRequestsUISettings">
@@ -83,16 +82,12 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "structure.view.defaults.are.configured": "true",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RunManager">
     <configuration name="8_puzzle_game" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="8_puzzle_game" TARGET_NAME="8_puzzle_game" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="8_puzzle_game" RUN_TARGET_NAME="8_puzzle_game">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
@@ -107,7 +102,8 @@
       <option name="presentableId" value="Default" />
       <updated>1699613531897</updated>
       <workItem from="1699613534185" duration="5251000" />
-      <workItem from="1699633916918" duration="662000" />
+      <workItem from="1699633916918" duration="5190000" />
+      <workItem from="1699649145750" duration="4000" />
     </task>
     <task id="LOCAL-00001" summary="cpp mode">
       <option name="closed" value="true" />
@@ -117,7 +113,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699614631880</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="full code with BFS implementation&#10;and comments to explain it ..by BEDO">
+      <option name="closed" value="true" />
+      <created>1699634915076</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1699634915076</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -131,6 +135,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="cpp mode" />
-    <option name="LAST_COMMIT_MESSAGE" value="cpp mode" />
+    <MESSAGE value="full code with BFS implementation&#10;and comments to explain it ..by BEDO" />
+    <option name="LAST_COMMIT_MESSAGE" value="full code with BFS implementation&#10;and comments to explain it ..by BEDO" />
   </component>
 </project>
