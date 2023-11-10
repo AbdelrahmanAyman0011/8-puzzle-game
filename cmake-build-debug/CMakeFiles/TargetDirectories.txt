@@ -1,0 +1,3 @@
+C:/Users/abdel/OneDrive/Documents/University/AI/Assigenments/8-puzzle-game/cmake-build-debug/CMakeFiles/8_puzzle_game.dir
+C:/Users/abdel/OneDrive/Documents/University/AI/Assigenments/8-puzzle-game/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/abdel/OneDrive/Documents/University/AI/Assigenments/8-puzzle-game/cmake-build-debug/CMakeFiles/rebuild_cache.dir
