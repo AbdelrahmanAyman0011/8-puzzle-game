@@ -1,15 +1,14 @@
 #include <bits/stdc++.h>
-
 using namespace std;
 using namespace chrono;
 
-// Structure to represent the state of the puzzle
+const int SIZE = 3;
+
 struct PuzzleState {
     vector<vector<int>> board;
     int zeroRow, zeroCol;
 };
 
-// Function to print the current state of the puzzle
 void printPuzzle(const PuzzleState& state) {
     for (const auto& row : state.board) {
         for (int num : row) {
@@ -20,13 +19,11 @@ void printPuzzle(const PuzzleState& state) {
     cout << endl;
 }
 
-// Function to check if the puzzle is in the goal state
 bool isGoalState(const PuzzleState& state) {
     const vector<vector<int>> goal = {{0, 1, 2}, {3, 4, 5}, {6, 7, 8}};
     return state.board == goal;
 }
 
-// Function to convert a PuzzleState to a string for hashing
 string toString(const PuzzleState& state) {
     string result = "";
     for (const auto& row : state.board) {
@@ -37,8 +34,168 @@ string toString(const PuzzleState& state) {
     return result;
 }
 
+vector<int> move_up(const vector<int>& state) {
+    vector<int> new_state = state;
+    auto it = find(new_state.begin(), new_state.end(), 0);
+    int index = distance(new_state.begin(), it);
+    if (index >= SIZE) {
+        swap(new_state[index], new_state[index - SIZE]);
+        return new_state;
+    } else {
+        return vector<int>();
+    }
+}
+
+vector<int> move_down(const vector<int>& state) {
+    vector<int> new_state = state;
+    auto it = find(new_state.begin(), new_state.end(), 0);
+    int index = distance(new_state.begin(), it);
+    if (index < SIZE * (SIZE - 1)) {
+        swap(new_state[index], new_state[index + SIZE]);
+        return new_state;
+    } else {
+        return vector<int>();
+    }
+}
+
+vector<int> move_left(const vector<int>& state) {
+    vector<int> new_state = state;
+    auto it = find(new_state.begin(), new_state.end(), 0);
+    int index = distance(new_state.begin(), it);
+    if (index % SIZE != 0) {
+        swap(new_state[index], new_state[index - 1]);
+        return new_state;
+    } else {
+        return vector<int>();
+    }
+}
+
+vector<int> move_right(const vector<int>& state) {
+    vector<int> new_state = state;
+    auto it = find(new_state.begin(), new_state.end(), 0);
+    int index = distance(new_state.begin(), it);
+    if ((index + 1) % SIZE != 0) {
+        swap(new_state[index], new_state[index + 1]);
+        return new_state;
+    } else {
+        return vector<int>();
+    }
+}
+
+class Node {
+public:
+    vector<int> state;
+    Node* parent;
+    string operation;
+    int depth;
+    int cost;
+
+    Node(const vector<int>& state, Node* parent, const string& operation, int depth, int cost)
+        : state(state), parent(parent), operation(operation), depth(depth), cost(cost) {}
+};
+
+Node* create_node(const vector<int>& state, Node* parent, const string& operation, int depth, int cost) {
+    return new Node(state, parent, operation, depth, cost);
+}
+
+vector<Node*> expand_node(Node* node, vector<Node*>& nodes) {
+    vector<Node*> expanded_nodes;
+    expanded_nodes.push_back(create_node(move_up(node->state), node, "Up", node->depth + 1, 0));
+    expanded_nodes.push_back(create_node(move_down(node->state), node, "Down", node->depth + 1, 0));
+    expanded_nodes.push_back(create_node(move_left(node->state), node, "Left", node->depth + 1, 0));
+    expanded_nodes.push_back(create_node(move_right(node->state), node, "Right", node->depth + 1, 0));
+    expanded_nodes.erase(remove_if(expanded_nodes.begin(), expanded_nodes.end(), [](Node* n) {
+                             return n->state.empty();
+                         }), expanded_nodes.end());
+    return expanded_nodes;
+}
+
+string vector_to_string(const vector<int>& vec) {
+    string result;
+    for (int num : vec) {
+        result += to_string(num);
+    }
+    return result;
+}
+
+vector<string> dfs(const vector<int>& start, const vector<int>& goal, int& nodesExpanded, int& searchDepth, double& runningTime) {
+    vector<Node*> nodes;
+    vector<Node*> visited;
+    unordered_set<string> state_dict;
+    int depth_limit = 5000; // ential value ..
+
+    stack<Node*> nodeStack; // Use a stack instead of recursion
+    nodeStack.push(create_node(start, nullptr, "", 0, 0));
+    auto start_time = high_resolution_clock::now();
+
+    while (!nodeStack.empty()) {
+        auto elapsed_time = duration_cast<seconds>(high_resolution_clock::now() - start_time);
+        if (elapsed_time.count() < 80) {
+            Node* node = nodeStack.top();
+            nodeStack.pop();
+
+            string state_str = vector_to_string(node->state);
+            if (state_dict.find(state_str) != state_dict.end()) {
+                continue;
+            }
+            state_dict.insert(state_str);
+            visited.push_back(node);
+
+            cout << state_str << endl;
+
+            if (node->state == goal) {
+                vector<string> moves;
+                Node* temp = node;
+                while (temp != nullptr) {
+                    moves.insert(moves.begin(), temp->operation);
+                    temp = temp->parent;
+                }
+
+                auto stop_time = high_resolution_clock::now();
+                auto duration = duration_cast<milliseconds>(stop_time - start_time);
+
+                nodesExpanded = visited.size();
+                searchDepth = moves.size() - 1;
+                runningTime = duration.count() / 1000.0;
+
+                return moves;
+            }
+
+            if (node->depth < depth_limit) {
+                vector<Node*> expanded_nodes = expand_node(node, nodes);
+                for (Node* n : expanded_nodes) {
+                    if (find(visited.begin(), visited.end(), n) == visited.end()) {
+                        nodeStack.push(n);
+                    }
+                }
+            }
+        } else {
+            return vector<string>();
+        }
+    }
+
+    return vector<string>();
+}
+
+void printDFSResults(const vector<string>& solution, int nodesExpanded, int searchDepth, double runningTime) {
+    if (!solution.empty()) {
+        cout << "DFS - Goal State Found:\n";
+        for (const auto& move : solution) {
+            cout << "Move: " << move << endl;
+        }
+        cout << "Path to Goal: " << solution.size() - 1 << " steps\n";
+        cout << "Cost of Path: " << solution.size() - 1 << endl;
+        cout << "Nodes Expanded: " << nodesExpanded << endl;
+        cout << "Search Depth: " << searchDepth << endl;
+        cout << "Running Time: " << runningTime << " seconds\n";
+    } else {
+        cout << "DFS - Goal state not reachable.\n";
+    }
+}
+
+
 // Function to perform BFS and print the steps to reach the goal state with directions and iterations
-void solvePuzzle(const PuzzleState& initialState) {
+void solveBFS(const PuzzleState& initialState) {
     auto start = high_resolution_clock::now();  // for time
 
     queue<pair<PuzzleState, vector<tuple<string, int, PuzzleState>>>> q;  // Tuple of direction, iteration, and PuzzleState
@@ -62,7 +219,7 @@ void solvePuzzle(const PuzzleState& initialState) {
             auto stop = high_resolution_clock::now();
             auto duration = duration_cast<milliseconds>(stop - start);
 
-            cout << "Goal State Found:\n";
+            cout << "BFS - Goal State Found:\n";
             for (const auto& step : stepsSoFar) {
                 cout << "Iteration " << get<1>(step) << ":\n";
                 printPuzzle(get<2>(step));
@@ -93,7 +250,7 @@ void solvePuzzle(const PuzzleState& initialState) {
                 nextState.zeroCol = newCol;
 
                 string nextStateString = toString(nextState);
-                                                                    /*In summary,
+                /*In summary,
                                                                      * this part of the code explores possible moves of the zero tile in different directions,
                                                                      * generates new states, and adds them to the queue for further exploration until the goal state is reached.*/
 
@@ -111,7 +268,7 @@ void solvePuzzle(const PuzzleState& initialState) {
     auto stop = high_resolution_clock::now();
     auto duration = duration_cast<milliseconds>(stop - start);
 
-    cout << "Goal state not reachable.\n";
+    cout << "BFS - Goal state not reachable.\n";
     cout << "Running Time: " << duration.count() << " milliseconds\n";
 }
 
@@ -136,7 +293,30 @@ int main() {
     cout << "Initial State:\n";
     printPuzzle(initialState);
 
-    solvePuzzle(initialState);
+    cout << "Choose algorithm (1 for BFS, 2 for DFS): ";
+    int choice;
+    cin >> choice;
+
+    if (choice == 1) {
+        solveBFS(initialState);
+
+    } else if (choice == 2) {
+        vector<int> start_state(initialState.board.size() * initialState.board[0].size());
+        for (int i = 0; i < initialState.board.size(); ++i) {
+            for (int j = 0; j < initialState.board[i].size(); ++j) {
+                start_state[i * SIZE + j] = initialState.board[i][j];
+            }
+        }
+
+        int nodesExpanded = 0;
+        int searchDepth = 0;
+        double runningTime = 0.0;
+
+        vector<string> solution = dfs(start_state, {0, 1, 2, 3, 4, 5, 6, 7, 8}, nodesExpanded, searchDepth, runningTime);
+        printDFSResults(solution, nodesExpanded, searchDepth, runningTime);
+    } else {
+        cout << "Invalid choice.\n";
+    }
 
     return 0;
 }
