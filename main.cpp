@@ -222,8 +222,9 @@ void solveBFS(const PuzzleState& initialState) {
             cout << "BFS - Goal State Found:\n";
             for (const auto& step : stepsSoFar) {
                 cout << "Iteration " << get<1>(step) << ":\n";
-                printPuzzle(get<2>(step));
                 cout << "Direction: " << get<0>(step) << endl;
+                printPuzzle(get<2>(step));
+
             }
             cout << "Path to Goal: " << stepsSoFar.size() - 1 << " steps\n";
             cout << "Cost of Path: " << stepsSoFar.size() - 1 << endl;

@@ -20,8 +20,18 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="new-version-code that i added DFS functions and &#10;merged it with BFS code &#10;==&gt; I displayed output in DFS in different &#10;==&gt; I make user choice in first BFS or DFS &#10;==&gt; add all results in DFS &#10; -path to goal&#10;– cost of path&#10;– nodes expanded&#10;– search depth&#10;– running time&#10;==&gt; in DFS I used Stack way and put the initial value of depth_limit = 5000&#10;-- by Bedo Ayman">
+    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="hello sabry">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.cmake/api/v1/reply/index-2023-11-10T10-52-21-0678.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/.ninja_log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_C.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_CXX.bin" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CMakeDetermineCompilerABI_CXX.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdC/a.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdCXX/a.exe" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/3.26.4/CompilerIdCXX/a.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/CMakeConfigureLog.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-Debug-log.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" beforeDir="false" afterPath="$PROJECT_DIR$/cmake-build-debug/CMakeFiles/clion-environment.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -62,9 +72,6 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
-  </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
     <option name="majorVersion" value="2023" />
@@ -103,6 +110,11 @@
         <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="main.cpp" type="CppFileRunConfiguration" factoryName="CppFileRunConfiguration" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" EMULATE_TERMINAL="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="8_puzzle_game" TARGET_NAME="main.cpp" CONFIG_NAME="main.cpp">
       <option name="sourceFile" value="main.cpp" />
       <method v="2">
@@ -126,9 +138,7 @@
       <workItem from="1699633916918" duration="5190000" />
       <workItem from="1699649145750" duration="1492000" />
       <workItem from="1699659064748" duration="42000" />
-      <workItem from="1699698565064" duration="4293000" />
-      <workItem from="1699708262087" duration="119000" />
-      <workItem from="1699710042244" duration="315000" />
+      <workItem from="1699698565064" duration="4134000" />
     </task>
     <task id="LOCAL-00001" summary="cpp mode">
       <option name="closed" value="true" />
@@ -170,23 +180,7 @@
       <option name="project" value="LOCAL" />
       <updated>1699650652486</updated>
     </task>
-    <task id="LOCAL-00006" summary="new-version-code that i added DFS functions and &#10;merged it with BFS code &#10;==&gt; I displayed output in DFS in different &#10;==&gt; I make user choice in first BFS or DFS &#10;==&gt; add all results in DFS &#10; -path to goal&#10;– cost of path&#10;– nodes expanded&#10;– search depth&#10;– running time&#10;==&gt; in DFS I used Stack way and put the initial value of depth_limit = 5000&#10;-- by Bedo Ayman">
-      <option name="closed" value="true" />
-      <created>1699702840201</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1699702840201</updated>
-    </task>
-    <task id="LOCAL-00007" summary="new-version-code that i added DFS functions and &#10;merged it with BFS code &#10;==&gt; I displayed output in DFS in different &#10;==&gt; I make user choice in first BFS or DFS &#10;==&gt; add all results in DFS &#10; -path to goal&#10;– cost of path&#10;– nodes expanded&#10;– search depth&#10;– running time&#10;==&gt; in DFS I used Stack way and put the initial value of depth_limit = 5000&#10;-- by Bedo Ayman">
-      <option name="closed" value="true" />
-      <created>1699702856026</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1699702856026</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -204,7 +198,6 @@
     <MESSAGE value="full code with BFS implementation&#10;and comments to explain it ..by BEDO" />
     <MESSAGE value="my code" />
     <MESSAGE value="hello sabry" />
-    <MESSAGE value="new-version-code that i added DFS functions and &#10;merged it with BFS code &#10;==&gt; I displayed output in DFS in different &#10;==&gt; I make user choice in first BFS or DFS &#10;==&gt; add all results in DFS &#10; -path to goal&#10;– cost of path&#10;– nodes expanded&#10;– search depth&#10;– running time&#10;==&gt; in DFS I used Stack way and put the initial value of depth_limit = 5000&#10;-- by Bedo Ayman" />
-    <option name="LAST_COMMIT_MESSAGE" value="new-version-code that i added DFS functions and &#10;merged it with BFS code &#10;==&gt; I displayed output in DFS in different &#10;==&gt; I make user choice in first BFS or DFS &#10;==&gt; add all results in DFS &#10; -path to goal&#10;– cost of path&#10;– nodes expanded&#10;– search depth&#10;– running time&#10;==&gt; in DFS I used Stack way and put the initial value of depth_limit = 5000&#10;-- by Bedo Ayman" />
+    <option name="LAST_COMMIT_MESSAGE" value="hello sabry" />
   </component>
 </project>
