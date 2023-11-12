@@ -33,84 +33,139 @@ string toString(const PuzzleState& state) {
     }
     return result;
 }
+// Move the empty space (represented by 0) in the puzzle board upward.
+vector<int> moveUp(const vector<int>& state) {
+    // Create a copy of the current state to modify.
+    vector<int> newState = state;
 
-vector<int> move_up(const vector<int>& state) {
-    vector<int> new_state = state;
-    auto it = find(new_state.begin(), new_state.end(), 0);
-    int index = distance(new_state.begin(), it);
+    // Find the iterator pointing to the position of the empty space (0) in the puzzle.
+    auto it = find(newState.begin(), newState.end(), 0);
+
+    // Calculate the index of the empty space in the puzzle board.
+    int index = distance(newState.begin(), it);
+
+    // Check if moving up is a valid move (not in the first row).
     if (index >= SIZE) {
-        swap(new_state[index], new_state[index - SIZE]);
-        return new_state;
+        // Swap the empty space with the element above it in the puzzle board.
+        swap(newState[index], newState[index - SIZE]);
+
+        // Return the new state after the move.
+        return newState;
     } else {
+        // If moving up is not valid, return an empty vector to indicate an invalid move.
         return vector<int>();
     }
 }
 
-vector<int> move_down(const vector<int>& state) {
-    vector<int> new_state = state;
-    auto it = find(new_state.begin(), new_state.end(), 0);
-    int index = distance(new_state.begin(), it);
+// Move the empty space (represented by 0) in the puzzle board downward.
+vector<int> moveDown(const vector<int>& state) {
+    // Create a copy of the current state to modify.
+    vector<int> newState = state;
+
+    // Find the iterator pointing to the position of the empty space (0) in the puzzle.
+    auto it = find(newState.begin(), newState.end(), 0);
+
+    // Calculate the index of the empty space in the puzzle board.
+    int index = distance(newState.begin(), it);
+
+    // Check if moving down is a valid move (not in the last row).
     if (index < SIZE * (SIZE - 1)) {
-        swap(new_state[index], new_state[index + SIZE]);
-        return new_state;
+        // Swap the empty space with the element below it in the puzzle board.
+        swap(newState[index], newState[index + SIZE]);
+
+        // Return the new state after the move.
+        return newState;
     } else {
+        // If moving down is not valid, return an empty vector to indicate an invalid move.
         return vector<int>();
     }
 }
+// Move the empty space (represented by 0) in the puzzle board to the left.
+vector<int> moveLeft(const vector<int>& state) {
+    // Create a copy of the current state to modify.
+    vector<int> newState = state;
 
-vector<int> move_left(const vector<int>& state) {
-    vector<int> new_state = state;
-    auto it = find(new_state.begin(), new_state.end(), 0);
-    int index = distance(new_state.begin(), it);
+    // Find the iterator pointing to the position of the empty space (0) in the puzzle.
+    auto it = find(newState.begin(), newState.end(), 0);
+
+    // Calculate the index of the empty space in the puzzle board.
+    int index = distance(newState.begin(), it);
+
+    // Check if moving left is a valid move (not in the leftmost column).
     if (index % SIZE != 0) {
-        swap(new_state[index], new_state[index - 1]);
-        return new_state;
+        // Swap the empty space with the element to its left in the puzzle board.
+        swap(newState[index], newState[index - 1]);
+
+        // Return the new state after the move.
+        return newState;
     } else {
+        // If moving left is not valid, return an empty vector to indicate an invalid move.
         return vector<int>();
     }
 }
 
-vector<int> move_right(const vector<int>& state) {
-    vector<int> new_state = state;
-    auto it = find(new_state.begin(), new_state.end(), 0);
-    int index = distance(new_state.begin(), it);
+// Move the empty space (represented by 0) in the puzzle board to the right.
+vector<int> moveRight(const vector<int>& state) {
+    // Create a copy of the current state to modify.
+    vector<int> newState = state;
+
+    // Find the iterator pointing to the position of the empty space (0) in the puzzle.
+    auto it = find(newState.begin(), newState.end(), 0);
+
+    // Calculate the index of the empty space in the puzzle board.
+    int index = distance(newState.begin(), it);
+
+    // Check if moving right is a valid move (not in the rightmost column).
     if ((index + 1) % SIZE != 0) {
-        swap(new_state[index], new_state[index + 1]);
-        return new_state;
+        // Swap the empty space with the element to its right in the puzzle board.
+        swap(newState[index], newState[index + 1]);
+
+        // Return the new state after the move.
+        return newState;
     } else {
+        // If moving right is not valid, return an empty vector to indicate an invalid move.
         return vector<int>();
     }
 }
-
+// Definition of the Node class representing a state in the puzzle.
 class Node {
 public:
-    vector<int> state;
-    Node* parent;
-    string operation;
-    int depth;
-    int cost;
+    vector<int> state;    // The state of the puzzle board.
+    Node* parent;         // Pointer to the parent node.
+    string operation;     // The operation (move) performed to reach this state.
+    int depth;            // The depth of the node in the search tree.
+    int cost;             // The cost associated with reaching this node.
 
+    // Constructor to initialize the Node.
     Node(const vector<int>& state, Node* parent, const string& operation, int depth, int cost)
         : state(state), parent(parent), operation(operation), depth(depth), cost(cost) {}
 };
 
-Node* create_node(const vector<int>& state, Node* parent, const string& operation, int depth, int cost) {
+// Function to create a new Node with given parameters.
+Node* createNode(const vector<int>& state, Node* parent, const string& operation, int depth, int cost) {
     return new Node(state, parent, operation, depth, cost);
 }
 
-vector<Node*> expand_node(Node* node, vector<Node*>& nodes) {
-    vector<Node*> expanded_nodes;
-    expanded_nodes.push_back(create_node(move_up(node->state), node, "Up", node->depth + 1, 0));
-    expanded_nodes.push_back(create_node(move_down(node->state), node, "Down", node->depth + 1, 0));
-    expanded_nodes.push_back(create_node(move_left(node->state), node, "Left", node->depth + 1, 0));
-    expanded_nodes.push_back(create_node(move_right(node->state), node, "Right", node->depth + 1, 0));
-    expanded_nodes.erase(remove_if(expanded_nodes.begin(), expanded_nodes.end(), [](Node* n) {
-                             return n->state.empty();
-                         }), expanded_nodes.end());
-    return expanded_nodes;
+// Function to expand the given node and generate its child nodes.
+vector<Node*> expandNode(Node* node, vector<Node*>& nodes) {
+    vector<Node*> expandedNodes;
+
+    // Create child nodes by applying possible moves (up, down, left, right).
+    expandedNodes.push_back(createNode(moveUp(node->state), node, "Up", node->depth + 1, 0));
+    expandedNodes.push_back(createNode(moveDown(node->state), node, "Down", node->depth + 1, 0));
+    expandedNodes.push_back(createNode(moveLeft(node->state), node, "Left", node->depth + 1, 0));
+    expandedNodes.push_back(createNode(moveRight(node->state), node, "Right", node->depth + 1, 0));
+
+    // Remove nodes with an empty state (invalid moves) from the list.
+    expandedNodes.erase(remove_if(expandedNodes.begin(), expandedNodes.end(), [](Node* n) {
+                            return n->state.empty();
+                        }), expandedNodes.end());
+
+    return expandedNodes;
 }
 
-string vector_to_string(const vector<int>& vec) {
+// Function to convert a vector of integers to a string.
+string vectorToString(const vector<int>& vec) {
     string result;
     for (int num : vec) {
         result += to_string(num);
@@ -118,63 +173,76 @@ string vector_to_string(const vector<int>& vec) {
     return result;
 }
 
+// Depth-First Search (DFS) algorithm to solve the puzzle.
 vector<string> dfs(const vector<int>& start, const vector<int>& goal, int& nodesExpanded, int& searchDepth, double& runningTime) {
-    vector<Node*> nodes;
-    vector<Node*> visited;
-    unordered_set<string> state_dict;
-    int depth_limit = 5000; // ential value ..
+    vector<Node*> nodes;             // List to store all nodes generated during the search.
+    vector<Node*> visited;           // List to store visited nodes.
+    unordered_set<string> stateDict; // Set to store unique string representations of visited states.
+    int depthLimit = 5000;           // Depth limit to prevent infinite search.
 
-    stack<Node*> nodeStack; // Use a stack instead of recursion
-    nodeStack.push(create_node(start, nullptr, "", 0, 0));
-    auto start_time = high_resolution_clock::now();
+    stack<Node*> nodeStack;           // Stack to perform DFS.
+    nodeStack.push(createNode(start, nullptr, "", 0, 0));
+    auto startTime = high_resolution_clock::now(); // Record the start time of the search.
 
+    // Main DFS loop.
     while (!nodeStack.empty()) {
-        auto elapsed_time = duration_cast<seconds>(high_resolution_clock::now() - start_time);
-        if (elapsed_time.count() < 80) {
+        auto elapsedTime = duration_cast<seconds>(high_resolution_clock::now() - startTime);
+
+        // Check if the search time limit (80 seconds) is not exceeded.
+        if (elapsedTime.count() < 80) {
             Node* node = nodeStack.top();
             nodeStack.pop();
 
-            string state_str = vector_to_string(node->state);
-            if (state_dict.find(state_str) != state_dict.end()) {
-                continue;
+            string stateStr = vectorToString(node->state);
+
+            // Check if the current state has been visited before.
+            if (stateDict.find(stateStr) != stateDict.end()) {
+                continue; // Skip the current node if the state has been visited.
             }
-            state_dict.insert(state_str);
+
+            stateDict.insert(stateStr); // Mark the current state as visited.
             visited.push_back(node);
 
-            cout << state_str << endl;
+            cout << stateStr << endl; // Print the current state (for visualization).
 
+            // Check if the goal state is reached.
             if (node->state == goal) {
                 vector<string> moves;
                 Node* temp = node;
+
+                // Backtrack to reconstruct the path to the goal.
                 while (temp != nullptr) {
                     moves.insert(moves.begin(), temp->operation);
                     temp = temp->parent;
                 }
 
-                auto stop_time = high_resolution_clock::now();
-                auto duration = duration_cast<milliseconds>(stop_time - start_time);
+                auto stopTime = high_resolution_clock::now();
+                auto duration = duration_cast<milliseconds>(stopTime - startTime);
 
+                // Update statistics.
                 nodesExpanded = visited.size();
                 searchDepth = moves.size() - 1;
                 runningTime = duration.count() / 1000.0;
 
-                return moves;
+                return moves; // Return the sequence of moves to reach the goal.
             }
 
-            if (node->depth < depth_limit) {
-                vector<Node*> expanded_nodes = expand_node(node, nodes);
-                for (Node* n : expanded_nodes) {
+            // Check if the depth limit is not exceeded.
+            if (node->depth < depthLimit) {
+                // Expand the current node and add its children to the stack.
+                vector<Node*> expandedNodes = expandNode(node, nodes);
+                for (Node* n : expandedNodes) {
                     if (find(visited.begin(), visited.end(), n) == visited.end()) {
                         nodeStack.push(n);
                     }
                 }
             }
         } else {
-            return vector<string>();
+            return vector<string>(); // Return an empty vector if the time limit is exceeded.
         }
     }
 
-    return vector<string>();
+    return vector<string>(); // Return an empty vector if the goal state is not reachable.
 }
 
 void printDFSResults(const vector<string>& solution, int nodesExpanded, int searchDepth, double runningTime) {
@@ -192,7 +260,6 @@ void printDFSResults(const vector<string>& solution, int nodesExpanded, int sear
         cout << "DFS - Goal state not reachable.\n";
     }
 }
-
 
 // Function to perform BFS and print the steps to reach the goal state with directions and iterations
 void solveBFS(const PuzzleState& initialState) {
@@ -230,7 +297,7 @@ void solveBFS(const PuzzleState& initialState) {
             cout << "Cost of Path: " << stepsSoFar.size() - 1 << endl;
             cout << "Nodes Expanded: " << nodesExpanded << endl;
             cout << "Search Depth: " << stepsSoFar.size() - 1 << endl;
-            cout << "Running Time: " << duration.count() << " milliseconds\n";
+            cout << "Running Time: " << duration.count()/1000.0 << " seconds\n";
             return;
         }
 
@@ -270,7 +337,7 @@ void solveBFS(const PuzzleState& initialState) {
     auto duration = duration_cast<milliseconds>(stop - start);
 
     cout << "BFS - Goal state not reachable.\n";
-    cout << "Running Time: " << duration.count() << " milliseconds\n";
+    cout << "Running Time: " << duration.count()/1000.0 << " seconds\n";
 }
 
 int main() {
