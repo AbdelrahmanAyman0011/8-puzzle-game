@@ -127,7 +127,7 @@ vector<int> moveRight(const vector<int>& state) {
         return vector<int>();
     }
 }
-// Definition of the Node class representing a state in the puzzle.
+  // Definition of the Node class representing a state in the puzzle.
 class Node {
 public:
     vector<int> state;    // The state of the puzzle board.
