@@ -1,9 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <stack>
-#include <queue>
-#include <unordered_set>
-#include <chrono>
+#include <bits/stdc++.h>
 
 using namespace std;
 using namespace chrono;
