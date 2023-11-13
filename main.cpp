@@ -55,7 +55,7 @@ public:
 
         int nodesExpanded = 0;
 
-        vector<string> directions = {"left", "right", "down", "up"};  // Change the order of directions
+        vector<string> directions = {"left", "right", "up", "down"};
 
         while (!frontier.empty()) {
             PuzzleState current = frontier.top().first;
@@ -69,8 +69,8 @@ public:
                 cout << "Goal State Found:\n";
                 for (const auto& step : stepsSoFar) {
                     cout << "Iteration " << get<1>(step) << ":\n";
-                    printPuzzle(get<2>(step));
                     cout << "Direction: " << get<0>(step) << endl;
+                    printPuzzle(get<2>(step));
                 }
                 cout << "Path to Goal: " << stepsSoFar.size() - 1 << " steps\n";
                 cout << "Cost of Path: " << stepsSoFar.size() - 1 << endl;
@@ -86,7 +86,7 @@ public:
             vector<int> dc = {-1, 1, 0, 0};
 
             // Change the order of directions in this loop
-            for (int i = 0; i < 4; ++i) {
+            for (int i = 3; i >= 0; --i) {
                 int newRow = current.zeroRow + dr[i];
                 int newCol = current.zeroCol + dc[i];
 
