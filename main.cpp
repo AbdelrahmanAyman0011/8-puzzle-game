@@ -1,4 +1,9 @@
-#include <bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <stack>
+#include <queue>
+#include <unordered_set>
+#include <chrono>
 
 using namespace std;
 using namespace chrono;
@@ -7,6 +12,13 @@ using namespace chrono;
 struct PuzzleState {
     vector<vector<int>> board;
     int zeroRow, zeroCol;
+};
+
+// Node structure for the search algorithm
+struct Node {
+    PuzzleState state;
+    Node* parent;
+    string action;
 };
 
 // Base class for search algorithms
@@ -43,14 +55,17 @@ public:
 // Depth-First Search class
 class DFS : public SearchAlgorithm {
 public:
+    int maxDepth;
+
+    DFS() : maxDepth(0) {}
+
     void dfs(const PuzzleState& initialState) {
         auto start = high_resolution_clock::now();
 
-        stack<pair<PuzzleState, vector<tuple<string, int, PuzzleState>>>> frontier;
+        stack<Node*> frontier;
         unordered_set<string> explored;
-        PuzzleState currentState = initialState;
-        vector<tuple<string, int, PuzzleState>> initialSteps;
-        frontier.push({initialState, initialSteps});
+        Node* startNode = new Node{initialState, nullptr, ""};
+        frontier.push(startNode);
         explored.insert(toString(initialState));
 
         int nodesExpanded = 0;
@@ -58,51 +73,52 @@ public:
         vector<string> directions = {"left", "right", "up", "down"};
 
         while (!frontier.empty()) {
-            PuzzleState current = frontier.top().first;
-            vector<tuple<string, int, PuzzleState>> stepsSoFar = frontier.top().second;
+            Node* currentNode = frontier.top();
             frontier.pop();
 
-            if (isGoalState(current)) {
+            if (isGoalState(currentNode->state)) {
                 auto stop = high_resolution_clock::now();
                 auto duration = duration_cast<milliseconds>(stop - start);
 
                 cout << "Goal State Found:\n";
-                for (const auto& step : stepsSoFar) {
-                    cout << "Iteration " << get<1>(step) << ":\n";
-                    cout << "Direction: " << get<0>(step) << endl;
-                    printPuzzle(get<2>(step));
-                }
-                cout << "Path to Goal: " << stepsSoFar.size() - 1 << " steps\n";
-                cout << "Cost of Path: " << stepsSoFar.size() - 1 << endl;
+                printSolution(currentNode);
+                cout << "Cost of Path: " << currentNode->state.board.size() - 1 << endl;
                 cout << "Nodes Expanded: " << nodesExpanded << endl;
-                cout << "Search Depth: " << stepsSoFar.size() - 1 << endl;
+                cout << "Max Depth: " << maxDepth << endl;
                 cout << "Running Time: " << duration.count() << " milliseconds\n";
-                recordResult(current, stepsSoFar);
+                recordResult(currentNode->state, {});
                 return;
             }
 
             nodesExpanded++;
+
+            if (static_cast<int>(currentNode->state.board.size()) > maxDepth) {
+                maxDepth = currentNode->state.board.size();
+            }
+
+            if (maxDepth > 50) { // Set a reasonable threshold for demonstration purposes
+                break;
+            }
+
             vector<int> dr = {0, 0, -1, 1};
             vector<int> dc = {-1, 1, 0, 0};
 
-            // Change the order of directions in this loop
             for (int i = 3; i >= 0; --i) {
-                int newRow = current.zeroRow + dr[i];
-                int newCol = current.zeroCol + dc[i];
+                int newRow = currentNode->state.zeroRow + dr[i];
+                int newCol = currentNode->state.zeroCol + dc[i];
 
                 if (newRow >= 0 && newRow < 3 && newCol >= 0 && newCol < 3) {
-                    PuzzleState nextState = current;
-                    swap(nextState.board[current.zeroRow][current.zeroCol], nextState.board[newRow][newCol]);
+                    PuzzleState nextState = currentNode->state;
+                    swap(nextState.board[currentNode->state.zeroRow][currentNode->state.zeroCol],
+                         nextState.board[newRow][newCol]);
                     nextState.zeroRow = newRow;
                     nextState.zeroCol = newCol;
 
                     string nextStateString = toString(nextState);
 
                     if (explored.find(nextStateString) == explored.end()) {
-                        vector<tuple<string, int, PuzzleState>> nextSteps = stepsSoFar;
-                        nextSteps.push_back({directions[i], nextSteps.size() + 1, nextState});
-
-                        frontier.push({nextState, nextSteps});
+                        Node* nextNode = new Node{nextState, currentNode, directions[i]};
+                        frontier.push(nextNode);
                         explored.insert(nextStateString);
                     }
                 }
@@ -116,10 +132,26 @@ public:
         cout << "Running Time: " << duration.count() << " milliseconds\n";
     }
 
-    // Implement the recordResult function for DFS
     void recordResult(const PuzzleState& currentState, const vector<tuple<string, int, PuzzleState>>& steps) override {
         cout << "Record DFS result here.\n";
-        // You can use 'currentState' and 'steps' to store or display the result
+    }
+
+    // Helper function to print the solution
+    void printSolution(Node* node) {
+        stack<Node*> solutionStack;
+        while (node != nullptr) {
+            solutionStack.push(node);
+            node = node->parent;
+        }
+
+        while (!solutionStack.empty()) {
+            Node* stepNode = solutionStack.top();
+            solutionStack.pop();
+            if (!stepNode->action.empty()) {
+                cout << "Direction: " << stepNode->action << endl;
+                printPuzzle(stepNode->state);
+            }
+        }
     }
 };
 
@@ -152,8 +184,8 @@ public:
                 cout << "Goal State Found:\n";
                 for (const auto& step : stepsSoFar) {
                     cout << "Iteration " << get<1>(step) << ":\n";
-                    printPuzzle(get<2>(step));
                     cout << "Direction: " << get<0>(step) << endl;
+                    printPuzzle(get<2>(step));
                 }
                 cout << "Path to Goal: " << stepsSoFar.size() - 1 << " steps\n";
                 cout << "Cost of Path: " << stepsSoFar.size() - 1 << endl;
@@ -205,7 +237,6 @@ public:
         // You can use 'currentState' and 'steps' to store or display the result
     }
 };
-
 int main() {
     PuzzleState initialState;
     cout << "Enter 9 numbers from 0 to 8 for the initial state of the puzzle:\n";
