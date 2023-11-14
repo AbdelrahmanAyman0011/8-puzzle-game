@@ -20,7 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="update the nearest code for dfs not the best">
+    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="finally dfs works">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/main.exe" afterDir="false" />
@@ -133,7 +133,10 @@
       <workItem from="1699831731766" duration="708000" />
       <workItem from="1699857762589" duration="1533000" />
       <workItem from="1699859342276" duration="820000" />
-      <workItem from="1699903753936" duration="7485000" />
+      <workItem from="1699903753936" duration="8224000" />
+      <workItem from="1699914641278" duration="154000" />
+      <workItem from="1699921070773" duration="464000" />
+      <workItem from="1699974267688" duration="1258000" />
     </task>
     <task id="LOCAL-00001" summary="cpp mode">
       <option name="closed" value="true" />
@@ -215,7 +218,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699908190577</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="finally dfs works">
+      <option name="closed" value="true" />
+      <created>1699913111253</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1699913111253</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -250,7 +261,8 @@
     <MESSAGE value=" update" />
     <MESSAGE value="finally run:need to complete" />
     <MESSAGE value="update the nearest code for dfs not the best" />
-    <option name="LAST_COMMIT_MESSAGE" value="update the nearest code for dfs not the best" />
+    <MESSAGE value="finally dfs works" />
+    <option name="LAST_COMMIT_MESSAGE" value="finally dfs works" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
