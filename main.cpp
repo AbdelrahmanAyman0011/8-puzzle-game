@@ -251,9 +251,9 @@ void solveA(node* mynode,bool ismanhattan){
     auto duration = duration_cast<milliseconds>(stop - start);// calc time
 
     cout<<"GOAL IS REACHED \n";
-    cout<<"depth of the path: "<<path.size()-1;
-    cout<<"number of nodes visited: "<<explored.size();
-    cout<<"number of nodes expanded: "<<added.size();
+    cout<<"depth of the path: "<<path.size()-1 << endl ;
+    cout<<"number of nodes visited: "<<explored.size() << endl;
+    cout<<"number of nodes expanded: "<<added.size() << endl ;
     cout << "Running Time: " << duration.count() << " milliseconds\n";
 
 
