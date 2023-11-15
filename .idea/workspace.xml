@@ -20,7 +20,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="the final project with all functions and comments.">
+    <list default="true" id="db67cf05-477a-4b50-b5f5-858e75ff6c9f" name="Changes" comment="my push don't use it">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/main.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.exe" beforeDir="false" afterPath="$PROJECT_DIR$/main.exe" afterDir="false" />
@@ -38,6 +38,7 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="UPDATE_TYPE" value="REBASE" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;history&quot;: [
@@ -140,7 +141,10 @@
       <workItem from="1699982250972" duration="67000" />
       <workItem from="1699984750876" duration="209000" />
       <workItem from="1699990368067" duration="1669000" />
-      <workItem from="1699995201582" duration="18097000" />
+      <workItem from="1699995201582" duration="18184000" />
+      <workItem from="1700025223504" duration="169000" />
+      <workItem from="1700036305261" duration="5930000" />
+      <workItem from="1700057278672" duration="1000" />
     </task>
     <task id="LOCAL-00001" summary="cpp mode">
       <option name="closed" value="true" />
@@ -246,7 +250,15 @@
       <option name="project" value="LOCAL" />
       <updated>1699990422501</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="my push don't use it">
+      <option name="closed" value="true" />
+      <created>1700015031293</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1700015031293</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -284,7 +296,8 @@
     <MESSAGE value="finally dfs works" />
     <MESSAGE value="the final project without comments ." />
     <MESSAGE value="the final project with all functions and comments." />
-    <option name="LAST_COMMIT_MESSAGE" value="the final project with all functions and comments." />
+    <MESSAGE value="my push don't use it" />
+    <option name="LAST_COMMIT_MESSAGE" value="my push don't use it" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

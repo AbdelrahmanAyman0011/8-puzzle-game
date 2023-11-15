@@ -4,169 +4,270 @@ using namespace std;
 using namespace chrono;
 
 // Structure to represent the state of the puzzle
-struct PuzzleState {// 2d vector  and accessed on zero
-    vector<vector<int>> board;
-    int zeroRow, zeroCol;
-};
-
-// Node2 structure to hold puzzle states for A* search
-struct Node2 {
-    PuzzleState state;  // Represents a state in the puzzle
-    Node2 * parent;       // Pointer to the parent node
-    string action;      // Action taken to reach this node from its parent
-    int cost;           // Cost associated with reaching this node
-
-    bool operator<(const Node2 & other) const {
-        return cost > other.cost; // Comparison for priority queue in A* search
+// const that holds the state of the goal
+const int goal[3][3]={0,1,2,3,4,5,6,7,8};
+bool ISGOAL(int arr[3][3]){
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            if(arr[i][j]!=goal[i][j]){
+                return false;
+            }
+        }
     }
-};
+    return true;
+}
+//vector that map each number to (x,y) value in the goal state  like places[2] is(0,2) in the goal state
+vector<pair<int, int>>places= {{0, 0}, {0, 1}, {0, 2}, {1, 0}, {1, 1}, {1, 2}, {2, 0}, {2, 1}, {2, 2}};
 
-class AStar {
+void swapn(int *a, int *b)
+{  /* function to swap to
+     values ie. before swap: a=2, b=3
+     after swap: b=2, a=3
+   */
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+class node{
 public:
-    // Heuristic: Calculates Manhattan distance to estimate distance to goal state
-    int calculateManhattanHeuristic(const PuzzleState& state) {
-        int distance = 0; //Initializes the variable distance to store the total Manhattan distance.
-        // Loop through the puzzle board to compute Manhattan distance for each tile
-        for (int i = 0; i < state.board.size(); ++i) {
-            for (int j = 0; j < state.board[i].size(); ++j) {
-                int value = state.board[i][j];
-                if (value != 0) { // ---------- to get his idx ----------- //
-                    int goalRow = (value - 1) / 3; // Assuming goal state is {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}}
-                    int goalCol = (value - 1) % 3;
-                    distance += abs(i - goalRow) + abs(j - goalCol);
-                }/* For goalRow: (5 - 1) / 3 = 4 / 3 = 1, which means the tile with value 5 should ideally be in the second row (index 1) in the goal state.
-For goalCol: (5 - 1) % 3 = 4 % 3 = 1, which means the tile with value 5 should ideally be in the second column (index 1) in the goal state.*/
+    int state[3][3]; //2D array that has the tiles in it
+    int x,y;        // variable to store position of 0 in the 2D matrix
+    int g=0,h=0;    //variable g holds the value of g(n) and h holds value of h(n) which is number of misplaced tiles
+    int f=0;          // f holds the value of f(n)
+    node* parent=NULL;
+    //default constructor
+    node(){
+
+    }                                                  //constructor for creating a new node
+    node(node* n){
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                this->state[i][j]=n->state[i][j];
             }
         }
-        return distance;
-    }
+        this->x = n->x;
+        this->y = n->y;
+        this->g = n->g;
+        this->f = n->f;
+        this->parent = n->parent;
+    }                                       //checking if 2 nodes are equal or not
 
-    // Heuristic: Calculates Euclidean distance to estimate distance to goal state
-    double calculateEuclideanHeuristic(const PuzzleState& state) {
-        double distance = 0.0;
-        // Loop through the puzzle board to compute Euclidean distance for each tile
-        for (int i = 0; i < state.board.size(); ++i) {
-            for (int j = 0; j < state.board[i].size(); ++j) {
-                int value = state.board[i][j];
-                if (value != 0) {
-                    int goalRow = (value - 1) / 3; // Assuming goal state is {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}}
-                    int goalCol = (value - 1) % 3;
-                    distance += sqrt(pow(i - goalRow, 2) + pow(j - goalCol, 2));
+public:
+    bool isequal(node* n){
+        if(this->x!=n->x or this->y!=n->y){
+            return false;
+        }
+        else{
+            for(int i=0;i<3;i++){
+                for(int j=0;j<3;j++){
+                    if(this->state[i][j]!=n->state[i][j])
+                        return false;
                 }
             }
-        }
-        return distance;
-    }
-
-    // A* search algorithm
-    void aStar(const PuzzleState& initialState, bool useEuclidean) {
-        auto start = high_resolution_clock::now();
-
-        priority_queue<Node2> frontier;     // Priority queue to store nodes for exploration
-        unordered_set<string> explored;    // Set to track explored states
-        Node2 startNode{initialState, nullptr, "", 0}; // Start node with initial state and cost 0
-        // Set the initial cost using the selected heuristic
-        startNode.cost = useEuclidean ? calculateEuclideanHeuristic(initialState) : calculateManhattanHeuristic(initialState);
-        frontier.push(startNode); // Push start node to the priority queue
-        explored.insert(toString(initialState)); // Mark initial state as explored
-
-        // Directions for moving the zero tile (left, right, up, down)
-        vector<string> directions = {"left", "right", "up", "down"};
-        vector<int> dr = {0, 0, -1, 1}; // Changes in row for each direction
-        vector<int> dc = {-1, 1, 0, 0}; // Changes in column for each direction
-
-        int iteration = 0; // Counter for iterations in A* search
-
-        // Main A* search loop
-        while (!frontier.empty()) {
-            Node2 currentNode = frontier.top(); // Get the node with the lowest cost
-            frontier.pop();
-
-            cout << "Iteration: " << iteration++ << endl;
-
-            // Check if the current state is the goal state
-            if (isGoalState(currentNode.state)) {
-                auto stop = high_resolution_clock::now();
-                auto duration = duration_cast<milliseconds>(stop - start);
-
-                cout << "Goal State Found:\n";
-                recordResult(currentNode.state, {}); // Record the result if needed
-                return;
-            }
-
-            // Explore possible moves (left, right, up, down)
-            for (int i = 0; i < 4; ++i) {
-                int newRow = currentNode.state.zeroRow + dr[i]; // Calculate new row for the zero tile
-                int newCol = currentNode.state.zeroCol + dc[i]; // Calculate new column for the zero tile
-
-                // Check if the new position is within the puzzle boundaries
-                if (newRow >= 0 && newRow < 3 && newCol >= 0 && newCol < 3) {
-                    PuzzleState nextState = currentNode.state; // Create a new state for exploration
-                    // Swap the zero tile with the new position
-                    swap(nextState.board[currentNode.state.zeroRow][currentNode.state.zeroCol],
-                         nextState.board[newRow][newCol]);
-                    nextState.zeroRow = newRow; // Update the zero tile's new row
-                    nextState.zeroCol = newCol; // Update the zero tile's new column
-
-                    string nextStateString = toString(nextState); // Convert the state to a string representation
-
-                    // Check if the state has not been explored
-                    if (explored.find(nextStateString) == explored.end()) {
-                        Node2 nextNode{nextState, &currentNode, directions[i], 0}; // Create the next node
-                        // Set the cost using the selected heuristic
-                        nextNode.cost = currentNode.cost - (useEuclidean ? calculateEuclideanHeuristic(currentNode.state) : calculateManhattanHeuristic(currentNode.state)) + 1 + (useEuclidean ? calculateEuclideanHeuristic(nextState) : calculateManhattanHeuristic(nextState));
-                        frontier.push(nextNode); // Add the next node to the priority queue
-                        explored.insert(nextStateString); // Mark the state as explored
-
-                        cout << "Direction: " << directions[i] << endl;
-                        printPuzzle(nextState); // Print the puzzle state for visualization
-                    }
+            return true;
+        }}                                   // function to calculate h(n) to the current node (manhattan distance)
+    int calculate_h(bool ismanhattan){
+        h=0;
+        int value=0;
+        for(int i=0;i<3;i++){
+            for(int j=0;j<3;j++){
+                if(state[i][j]!=goal[i][j]){
+                    value=state[i][j];
+                    if(ismanhattan==true){
+                    h+=abs(i-places[value].first)+ abs(j-places[value].second);
                 }
+                else{
+                    h+=sqrt(pow(i-places[value].first,2)+(pow(j-places[value].second,2)));
+                    //h = sqrt((current cell:x - goal:x)2 + (current cell.y - goal:y)2)
+                }
+                }
+
             }
         }
-
-        auto stop = high_resolution_clock::now();
-        auto duration = duration_cast<milliseconds>(stop - start);
-
-        cout << "Goal state not reachable.\n";
-        cout << "Running Time: " << duration.count() << " milliseconds\n";
+        return h;
+    }                               //function to find the least f(n) between to states
+    node* min_F(node* mynode){
+        return this->f < mynode->f? this : mynode;
     }
 
 
-    void recordResult(const PuzzleState &currentState, const vector<tuple<string, int, PuzzleState>> &steps) {
-        // Record the result if needed
+    //move left function
+    node* move_left(bool ismanhattan){
+        node* my_NewNode=new node(this);    // creating new node to expand
+
+        swapn(&my_NewNode->state[x][y],&my_NewNode->state[x][y-1]);
+        my_NewNode->y-=1;                       // reducing the index of y of the zero tile
+        my_NewNode->h=my_NewNode->calculate_h(ismanhattan);            // recalculating the h(n)
+        my_NewNode->g+=1;                      //increasing g by 1
+        my_NewNode->f=my_NewNode->h+my_NewNode->g;
+        my_NewNode->parent=this;
+        return my_NewNode;
+    }                               //function to move right
+    node* move_right(bool ismanhattan){
+        node* my_NewNode=new node(this);    // creating new node to expand
+
+        swapn(&my_NewNode->state[x][y],&my_NewNode->state[x][y+1]);
+        my_NewNode->y+=1;                       // reducing the index of y of the zero tile
+        my_NewNode->h=my_NewNode->calculate_h(ismanhattan);            // recalculating the h(n)
+        my_NewNode->g+=1;                      //increasing g by 1
+        my_NewNode->f=my_NewNode->h+my_NewNode->g;
+        my_NewNode->parent=this;
+        return my_NewNode;
+    }
+    //function to move up
+    node* move_up(bool ismanhattan){
+        node* my_NewNode=new node(this);    // creating new node to expand
+
+        swapn(&my_NewNode->state[x][y],&my_NewNode->state[x-1][y]);
+        my_NewNode->x-=1;                       // reducing the index of y of the zero tile
+        my_NewNode->h=my_NewNode->calculate_h(ismanhattan);             // recalculating the h(n)
+        my_NewNode->g+=1;                      //increasing g by 1
+        my_NewNode->f=my_NewNode->h+my_NewNode->g;
+        my_NewNode->parent=this;
+        return my_NewNode;
+    }
+    //function to move down
+    node* move_down(bool ismanhattan){
+        node* my_NewNode=new node(this);    // creating new node to expand
+
+        swapn(&my_NewNode->state[x][y],&my_NewNode->state[x+1][y]);
+        my_NewNode->x+=1;                       // reducing the index of y of the zero tile
+        my_NewNode->h=my_NewNode->calculate_h(ismanhattan);             // recalculating the h(n)
+        my_NewNode->g+=1;                      //increasing g by 1
+        my_NewNode->f=my_NewNode->h+my_NewNode->g;
+        my_NewNode->parent=this;
+        return my_NewNode;
     }
 
-    bool isGoalState(const PuzzleState &state) {
-        const vector<vector<int>> goal = {{1, 2, 3}, {4, 5, 6}, {7, 8, 0}};
-        return state.board == goal;
-    }
 
-    string toString(const PuzzleState &state) {
-        string result = "";
-        for (const auto &row : state.board) {
-            for (int num : row) {
-                result += to_string(num);
-            }
-        }
-        return result;
-    }
 
-    void printPuzzle(const PuzzleState &state) {
-        for (const auto &row: state.board) {
-            for (int num: row) {
-                cout << num << " ";
-            }
-            cout << endl;
-        }
-        cout << endl;
+
+
+
+
+};
+
+struct compare{
+    /*  It is custom comparator which helps
+        us to compare two Node type objects
+    */
+    bool operator()(node* const& n1, node* const& n2)
+    {  /*
+        we are comparing two objects based on their heuristic function values ie.  f value of Node.
+        this helps us in creating minimum heap
+        */
+        return n1->f > n2->f;
     }
 };
+
+
+//vector that holds all the nodes that have been visited
+vector<node*>explored;
+vector<node*>added; //vector to use when check in node has been addded to the frontier list or not since accessing elements in frontier is O(N) while here will be O(1)
+// function to check wether this node was added to frontier or not
+bool isPresentIn_Frontier(node *mynode)
+{
+    int size=added.size();
+    for(int i=0; i<size; i++)
+    {
+        if(mynode->isequal(added[i]))         //checking if both nodes are equal
+        {
+            return true;
+        }
+    }
+    return false;
+}
+
+// creating priority queue to hold the nodes and highest priority goes to the node with the least f(n)
+priority_queue<node*,vector<node*>,compare>frontier;
+
+//function to add the node to frontier
+void AddTo_Frontier(node* n0){
+    if(!isPresentIn_Frontier(n0)){
+        frontier.push(n0);
+        added.push_back(n0);
+    }
+}
+void AddTo_visited(){
+    explored.push_back(frontier.top());
+    frontier.pop();
+}
+void printState(int arr[3][3]){
+    cout<<"\n";
+    for(int i=0;i<3;i++){
+        for(int j=0;j<3;j++){
+            cout<<arr[i][j]<<" ";
+        }
+        cout<<"\n";
+    }
+}
+void check_direction(int current_x,int previous_x,int current_y,int previous_y){
+    if(current_x==previous_x+1){
+        cout<<"Direction Down\n";
+    }
+    else if(current_x==previous_x-1){
+        cout<<"Direction UP\n";
+    }
+    else if(current_y==previous_y+1){
+        cout<<"Direction Right\n";
+    }
+    else
+        cout<<"Direction Left\n";
+}
+
+void solveA(node* mynode,bool ismanhattan){
+    node* current=mynode;
+    auto start = high_resolution_clock::now();// start time record
+
+    while(!ISGOAL(current->state)){
+        bool UpValid=current->x-1 >= 0;                  //value to check if moving up is inbound
+        bool DValid=current->x+1 <= 2;                   //value to check if moving down is inbound
+        bool RValid=current->y+1 <= 2;                   //value to check if moving right inbound
+        bool LValid=current->y-1 >= 0;                   //value to check if moving left is inbound
+
+        //if the move is valid it will make a new node with the move and add it to the frontier list
+        if(UpValid){AddTo_Frontier(current->move_up(ismanhattan));}
+        if(DValid){AddTo_Frontier(current->move_down(ismanhattan));}
+        if(RValid){AddTo_Frontier(current->move_right(ismanhattan));}
+        if(LValid){AddTo_Frontier(current->move_left(ismanhattan));}
+        AddTo_visited();                                         //choosing the node with least F to be added to the visited list
+        current=explored[explored.size()-1];
+
+    }
+    vector<node*>path;
+    while(current!=NULL){
+        path.push_back(current);
+        current=current->parent;
+    }
+    reverse(path.begin(), path.end());
+    for(int i=0;i<path.size();i++){
+        if(i!=0){
+            int current_x=path[i]->x,previous_x=path[i]->parent->x;
+            int current_y=path[i]->y,previous_y=path[i]->parent->y;
+            check_direction(current_x,previous_x,current_y,previous_y);
+            printState(path[i]->state);}
+    }
+    auto stop = high_resolution_clock::now();                 // time stop
+    auto duration = duration_cast<milliseconds>(stop - start);// calc time
+
+    cout<<"GOAL IS REACHED \n";
+    cout<<"depth of the path: "<<path.size()-1;
+    cout<<"number of nodes visited: "<<explored.size();
+    cout<<"number of nodes expanded: "<<added.size();
+    cout << "Running Time: " << duration.count() << " milliseconds\n";
+
+
+
+}
 
 //---------------------------------------------------------------------------------
 
 // Structure to represent the state of the puzzle
 
+struct PuzzleState {// 2d vector  and accessed on zero
+    vector<vector<int>> board;
+    int zeroRow, zeroCol;
+};
 
 struct Node {
     PuzzleState state;
@@ -242,7 +343,7 @@ public:
 
                 cout << "Goal State Found:\n";
                 printSolution(currentNode);
-                cout << "Cost of Path: " << currentNode->state.board.size() - 1 << endl;
+                cout << "Cost of Path: " << currentNode->state.board.size() << endl;
                 cout << "Nodes Expanded: " << nodesExpanded << endl;
                 cout << "Max Depth: " << maxDepth << endl;
                 cout << "Running Time: " << duration.count() << " milliseconds\n";
@@ -395,7 +496,7 @@ public:
             }
         }
 
-        auto stop = high_resolution_clock::now();                 // stop time
+        auto stop = high_resolution_clock::now();                  // stop time
         auto duration = duration_cast<milliseconds>(stop - start);// calc time
 
         cout << "Goal state not reachable.\n";
@@ -408,6 +509,8 @@ public:
 
 int main() {
     PuzzleState initialState;
+    node* mynode=new node();
+    AddTo_Frontier(mynode);
     cout << "Enter 9 numbers from 0 to 8 for the initial state of the puzzle:\n";
 
     for (int i = 0; i < 3; ++i) {
@@ -415,15 +518,18 @@ int main() {
         for (int j = 0; j < 3; ++j) {
             int num;
             cin >> num;
+            mynode->state[i][j]=num;
             row.push_back(num);
             if (num == 0) {
                 initialState.zeroRow = i;
                 initialState.zeroCol = j;
+                mynode->x=i;
+                mynode->y=j;
             }
         }
         initialState.board.push_back(row);
     }
-
+    AddTo_visited();
     cout << "Initial State:\n";
 
     cout << "Choose the search algorithm (1 for BFS, 2 for DFS, 3 for A*): ";
@@ -439,17 +545,17 @@ int main() {
         cout << "DFS:\n";
         dfsSolver.dfs(initialState);
     } else if (choice == 3) {
-        AStar astarSolver;
+        cout<<"solve by Euclidian (1) or by manhattan(2): ";
+        int ans;cin>>ans;
+        bool ismanhattan;
+        if(ans==2){
+            ismanhattan=true;
+        }
+        else{
+            ismanhattan=false;
+        }
+        solveA(mynode,ismanhattan);
 
-        // Assuming 'initialState' is defined earlier
-
-        // Using Manhattan heuristic
-        cout << "A* Search with Manhattan Heuristic:\n";
-        astarSolver.aStar(initialState, false); // 'false' indicates using the Manhattan heuristic
-
-        // Using Euclidean heuristic
-        cout << "\nA* Search with Euclidean Heuristic:\n";
-        astarSolver.aStar(initialState, true); //
     } else {
         cout << "Invalid choice. Exiting...\n";
     }
