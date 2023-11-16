@@ -1,10 +1,7 @@
 <!DOCTYPE  html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"/></head><body><p style="text-indent: 0pt;text-align: left;"><br/></p><h1 style="padding-top: 9pt;padding-left: 4pt;text-indent: 0pt;text-align: center;">8-Puzzle-Problem</h1><p style="text-indent: 0pt;text-align: left;"><br/></p><p class="s1" style="padding-left: 64pt;text-indent: 0pt;text-align: center;">Developed by:</p><div style="text-align: center;">
-  <p class="s2" style="padding-left: 64pt; text-indent: 0pt;">
-    Abdelrahman Ayman Saad
-  </p>
   <p class="s2" style="padding-top: 13pt; padding-left: 114pt; text-indent: 0pt; line-height: 150%; text-align: center;">
-    Ahmed Sabry <be><br> Youssef Waleed Mostafa
+   Abdelrahman Ayman Saad <br>  Ahmed Sabry <be><br> Youssef Waleed Mostafa
   </p>
 </div>
 
