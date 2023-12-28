@@ -114,6 +114,49 @@ The 8-Puzzle Problem is a classic challenge in artificial intelligence and searc
        6 7 8
        ```
 
+#### DFS Algorithm
+
+1. **Enter 9 numbers from 0 to 8 for the initial state of the puzzle:** 1 2 5 3 4 0 6 7 8
+   **Initial State:**
+
+2. **Choose the search algorithm (1 for BFS, 2 for DFS, 3 for A\*):** 2
+   **DFS:**
+
+   - **Goal State Found:**
+
+     - **Direction: Left**
+
+       ```
+       1 2 5
+       3 0 4
+       6 7 8
+       ```
+
+     - **Direction: Left**
+
+       ```
+       1 2 5
+       0 3 4
+       6 7 8
+       ```
+
+     --->>> some iterations
+
+   - **Direction: UP**
+
+     ```
+     0 1 2
+     3 4 5
+     6 7 8
+     ```
+
+   - **GOAL IS REACHED**
+
+     - **Cost of Path:** 3
+     - **Nodes Expanded:** 27
+     - **Max Depth:** 3
+     - **Running Time:** 0 milliseconds
+
 #### A\* Algorithm
 
 **Manhattan Heuristic:**
